@@ -12,6 +12,13 @@ dependencies {
     annotationProcessor("org.openjdk.jmh:jmh-generator-annprocess:1.37")
 }
 
+sourceSets {
+    named("jmh") {
+        java.setSrcDirs(listOf("src/main/java"))
+        resources.setSrcDirs(listOf("src/main/resources"))
+    }
+}
+
 tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.addAll(
         listOf("--enable-preview", "--release", "25")
@@ -37,7 +44,11 @@ java {
 jmh {
     jmhVersion.set("1.37")
     jvmArgsAppend.add("--enable-preview")
-    duplicateClassesStrategy.set(DuplicatesStrategy.WARN)
+    duplicateClassesStrategy.set(DuplicatesStrategy.EXCLUDE)
+}
+
+tasks.named<Jar>("jmhJar") {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.register("benchmark") {

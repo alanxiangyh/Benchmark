@@ -51,8 +51,6 @@ tasks.named<Jar>("jmhJar") {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-tasks.register("benchmark") {
-    group = "verification"
-    description = "Runs all JMH benchmarks"
-    dependsOn("jmh")
+tasks.withType<me.champeau.jmh.JMHTask>().configureEach {
+    outputs.upToDateWhen { false }
 }

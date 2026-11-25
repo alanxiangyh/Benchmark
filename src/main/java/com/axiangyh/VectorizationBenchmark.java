@@ -52,4 +52,18 @@ public class VectorizationBenchmark {
         }
         return result;
     }
+
+    @Benchmark
+    public float[] impl3() {
+        for (int i = 0; i < a.length; i++) {
+            float f;
+            if (a[i] > 0.5f) {
+                f = a[i] * b[i];
+            } else {
+                f = a[i] + b[i];
+            }
+            result[i] = f;
+        }
+        return result;
+    }
 }

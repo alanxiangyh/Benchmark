@@ -10,7 +10,15 @@ import java.util.Random;
 @State(Scope.Thread)
 @Warmup(iterations = 3, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
-@Fork(value = 1)
+@Fork(value = 1, jvmArgsAppend = {
+    "-XX:+UnlockDiagnosticVMOptions",
+    "-XX:CompileCommand=print,*Benchmark.*",
+    "-XX:PrintAssemblyOptions=intel",
+    "-Dgraal.Dump=:2",
+    "-Dgraal.MethodFilter=*Benchmark.*",
+    "-Dgraal.DumpPath=graal_dumps",
+    "-Dgraal.PrintGraph=Network"
+})
 public class VectorizationBenchmark {
 
     @Param({"1000000"})
